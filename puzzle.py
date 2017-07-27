@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 
 """ Puzzle Class """
 
@@ -13,10 +13,12 @@ class Cell:
         self.col = y
         self.box_x = box_x
         self.box_y = box_y
-        self.value = 0
+        self.value = value
         try:
             self.value = int(value)
         except ValueError:
+            self.value = 0
+        except TypeError:
             pass
 
     def prune(self, candidate, info):
@@ -51,6 +53,7 @@ class Puzzle:
 
         for row1 in range(row_size):
             for col1 in range(col_size):
+                print("row1: {0}, col1: {1}, BOX_SIZE: {2}, value: {3}".format(row1, col1, self.BOX_SIZE, self.puzzle[row1][col1]))
                 yield Cell(row1, col1,
                            int(row1 / self.BOX_SIZE), int(col1 / self.BOX_SIZE),
                            self.puzzle[row1][col1])

@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 ''' Hint Generator '''
 
 
@@ -23,19 +23,14 @@ class HintGenerator:
 
         default_hint = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         for cell in self.puzzle.cells():
-            if cell.value > 0:
-                self.hint_matrix.puzzle[cell.row][cell.col] = cell.value
-            else:
+            if cell.value < 1:
                 row = self.puzzle.row(cell.row)
                 col = self.puzzle.col(cell.col)
                 box = self.puzzle.box(cell.box_x, cell.box_y)
                 hint = cell.prune(default_hint, [row, col, box])
-                if len(hint) == 1:
-                    self.hint_matrix.set_cell(cell.row, cell.col, hint[0])
-                else:
-                    self.hint_matrix.set_cell(cell.row, cell.col, hint)
+                self.hint_matrix.set_cell(cell.row, cell.col, hint)
 
-def testHints():
+def test_hints():
     """ Test Hints """
 
     puzz = Puzzle()
@@ -57,4 +52,4 @@ def testHints():
 
 
 if __name__ == "__main__":
-    testHints()
+    test_hints()

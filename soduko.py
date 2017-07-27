@@ -1,9 +1,10 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 ''' soduko solver '''
 
 import copy
 from puzzle import Puzzle
 from hints import HintGenerator
+from stats import PuzzleStats
 
 PUZZLE = """
 060003049
@@ -36,6 +37,10 @@ if __name__ == '__main__':
     print_puzzle(SODUKO.puzzle)
     print(SODUKO)
 
-    hint = HintGenerator(SODUKO)
-    hint.create_hints()
-    print(hint.hint_matrix.box(0,0))
+    HINT = HintGenerator(SODUKO)
+    HINT.create_hints()
+    print(HINT.hint_matrix.box(0, 0))
+
+    STATS = PuzzleStats()
+    STATS.set_puzzle(HINT.hint_matrix)
+    print(STATS)
