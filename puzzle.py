@@ -8,11 +8,11 @@ import re
 class Cell:
     """ A class which represents a single cell in a puzzle. """
 
-    def __init__(self, x, y, box_x, box_y, value):
+    def __init__(self, x, y, box_size, value):
         self.row = x
         self.col = y
-        self.box_x = box_x
-        self.box_y = box_y
+        self.box_x = int(x / box_size)
+        self.box_y = int(y / box_size)
         self.value = value
         try:
             self.value = int(value)
@@ -21,7 +21,12 @@ class Cell:
         except TypeError:
             pass
 
-    def prune(self, candidate, info):
+    def get_box(self):
+        """ Return the box that the cell is contained in. """
+        return self.box_x, self.box_y
+
+    @staticmethod
+    def prune(candidate, info):
         """ Utility to prune the duplicates from other rows out of a candidate hint list. """
 
         scand = set(candidate)
@@ -29,7 +34,8 @@ class Cell:
         return list(scand.difference(sinfo))
 
     def __str__(self):
-        return "[x: {0}, y: {1}, box_x: {2}, box_y: {3}, cell: {4}]".format(self.row, self.col, self.box_x, self.box_y, self.value)
+        return "[x: {0}, y: {1}, box_x: {2}, box_y: {3}, cell: {4}]".format(
+            self.row, self.col, self.box_x, self.box_y, self.value)
 
 class Puzzle:
 
@@ -53,9 +59,9 @@ class Puzzle:
 
         for row1 in range(row_size):
             for col1 in range(col_size):
-                print("row1: {0}, col1: {1}, BOX_SIZE: {2}, value: {3}".format(row1, col1, self.BOX_SIZE, self.puzzle[row1][col1]))
-                yield Cell(row1, col1,
-                           int(row1 / self.BOX_SIZE), int(col1 / self.BOX_SIZE),
+                print("row1: {0}, col1: {1}, BOX_SIZE: {2}, value: {3}".format(
+                    row1, col1, self.BOX_SIZE, self.puzzle[row1][col1]))
+                yield Cell(row1, col1, self.BOX_SIZE,
                            self.puzzle[row1][col1])
 
     def set_cell(self, row_index, col_index, value):

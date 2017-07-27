@@ -37,4 +37,4 @@ class PuzzleStats:
         for k in self.stats:
             output = output + " < {0} : {1} > ".format(k, self.stats[k])
 
-        return (output)
+        return output
